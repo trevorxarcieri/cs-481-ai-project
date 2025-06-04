@@ -1,3 +1,8 @@
+"""
+The code for the Checkers Board GUI was generated entirely by ChatGPT 4.1. This includes both the graphical elements and
+the logic of the game.
+"""
+
 import tkinter as tk
 
 BOARD_SIZE = 8
