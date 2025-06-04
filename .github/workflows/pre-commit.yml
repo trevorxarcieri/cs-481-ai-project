@@ -1,0 +1,52 @@
+name: pre-commit
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: pre-commit-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      # 0.  Fetch sources
+      - uses: actions/checkout@v4
+
+      # 1.  Toolchain
+      - name: Set up CPython 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # 2.  Install Poetry once, system-wide
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: 2.1.3 # pin so resolution is reproducible
+
+      # 3.  Cache Poetry’s download / build artifacts and virtual environments
+      - name: Cache Poetry cache dir & virtual-envs
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pypoetry     # wheels / built dists
+            .venv                 # root env (created by Poetry)
+          key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-poetry-
+
+      # 4.  Poetry env
+      - name: Create Poetry env and install pre-commit
+        run: |
+          poetry sync --no-interaction
+          poetry run pre-commit --version
+
+      # 5.  Run the hooks
+      - name: Run pre-commit (all files)
+        run: |
+          poetry run pre-commit run --all-files
