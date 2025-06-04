@@ -1,0 +1,28 @@
+[project]
+name = "ai-project"
+version = "0.1.0"
+description = "This is the final project I made with my friend Demetri for my CS-481 AI class at Kettering Univeristy."
+authors = [
+    { name = "trevorxarcieri", email = "agent.steel.ta@gmail.com" },
+    { name = "demetri-0", email = "demetri894@gmail.com" },
+]
+readme = "README.md"
+requires-python = ">=3.12,<4.0"
+dependencies = []
+
+[tool.poetry]
+package-mode = false
+
+[project.scripts]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.11.11"
+pyright = "^1.1.401"
+pre-commit = "^4.2.0"
+pytest = "^8.3.5"
+pytest-xdist = "^3.7.0"
+pytest-asyncio = "^1.0.0"
