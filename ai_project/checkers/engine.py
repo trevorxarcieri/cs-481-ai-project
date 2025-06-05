@@ -2,10 +2,10 @@
 
 from math import floor
 
-from draughts.boards.american import Board
 from draughts.boards.standard import Color, Figure, Move
 
-from ai_project.engine import AbstractBoard, AbstractEngine
+from ai_project.checkers.board import CheckersBoard
+from ai_project.engine import AbstractEngine
 
 BOARD_DIM = 8  # Checkers board is 8x8
 BOARD_DIM_MINUS_ONE = BOARD_DIM - 1  # Used for distance calculations
@@ -14,10 +14,6 @@ MAN_VALUE = 5  # Value of a regular piece
 KING_VALUE = 10  # Value of a king piece
 WALL_DIST_VALUE = 3  # Distance to the wall value for evaluation
 SIDE_DIST_VALUE = 2  # Distance to the side value for evaluation
-
-
-class CheckersBoard(Board, AbstractBoard[Move]):
-    """Class representing the Checkers board, inheriting from `py-draught`'s `Board` and `AbstractBoard`."""
 
 
 class CheckersEngine(AbstractEngine[CheckersBoard, Move]):
