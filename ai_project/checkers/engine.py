@@ -68,10 +68,10 @@ class CheckersEngine(AbstractEngine[CheckersBoard, Move]):
         return sorted(
             board.legal_moves,
             key=lambda move: (
-                -len(move.captured_list),  # Prefer moves that capture more pieces
-                (-1 if negate else 1)
-                * (move.square_list[-1] // BOARD_DIM - BOARD_DIM_MIN_ONE_HALF)
+                -len(move.captured_list),  # prefer moves that capture more pieces
+                (1 if negate else -1)
+                * (move.square_list[-1] // BOARD_DIM / 2 - BOARD_DIM_MIN_ONE_HALF)
                 if len(move.square_list) > 0
-                else 0,  # Prefer moves that advance to the other side
+                else 0,  # prefer moves that advance to the opposite wall
             ),
         )
