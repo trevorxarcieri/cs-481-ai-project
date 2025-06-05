@@ -1,5 +1,6 @@
 """Abstract base class for an AI engine using Negamax and Alpha-Beta Pruning."""
 
+import random
 from abc import ABC, abstractmethod
 from collections.abc import Generator
 from enum import Enum
@@ -55,9 +56,17 @@ BoardT = TypeVar("BoardT", bound="AbstractBoard")
 class AbstractEngine(ABC, Generic[BoardT, MoveT]):
     """Abstract base class for an AI engine using Negamax and Alpha-Beta Pruning."""
 
-    def __init__(self, depth: int):
+    def __init__(
+        self, depth: int, *, randomness: float = 0.0, debug: bool = False
+    ) -> None:
         """Initialize the engine with a search depth."""
+        if not 0 <= randomness <= 100:
+            raise ValueError("randomness must be in 0...100")
+
         self.depth = depth
+        self._p_random = randomness / 100
+        self._rng = random.Random()
+        self._dbg = debug
 
     def terminal_score(self, board: BoardT) -> float:
         """Return a terminal score for the board state.
@@ -139,6 +148,12 @@ class AbstractEngine(ABC, Generic[BoardT, MoveT]):
 
         return best
 
+    def _maybe_random_root_move(self, board: BoardT) -> MoveT | None:
+        """With probability p_random, return a random legal move, else None."""
+        if self._p_random and self._rng.random() < self._p_random:
+            return self._rng.choice(list(board.legal_moves))
+        return None
+
     def get_best_move(self, board: BoardT) -> MoveT:
         """Get the best move for the current board state using **Negamax**.
 
@@ -148,9 +163,13 @@ class AbstractEngine(ABC, Generic[BoardT, MoveT]):
         Returns:
             Move: The best move for the current player.
         """
+        # Probabilistically return a random move, similar to epsilon-greedy strategy used in reinforcement learning.
+        rnd = self._maybe_random_root_move(board)
+        if rnd is not None:
+            return rnd
+
         best_move = None
-        best_value = -inf
-        alpha, beta = -inf, inf
+        alpha = -inf
 
         negate = board.turn.value == AbstractPlayer.MIN.value
 
@@ -159,26 +178,26 @@ class AbstractEngine(ABC, Generic[BoardT, MoveT]):
             move_value = -self.alpha_beta(
                 board,
                 self.depth - 1,
-                -beta,
+                -inf,
                 -alpha,
                 negate=negate,
             )  # recurse and negate
             board.pop()  # undo move
 
-            if move_value > best_value:
-                best_value = move_value
+            if move_value > alpha:
+                alpha = move_value
                 best_move = move
 
-            alpha = max(alpha, move_value)
+            if self._dbg:
+                print(f"Evaluated move: {move}, Value: {move_value}")
 
         if best_move is None:
             if list(board.legal_moves):
                 return self.get_ordered_moves(board)[
                     0
-                ]  # Fallback to the first legal move
+                ]  # fallback to the first legal move
             raise ValueError("No valid moves found")
 
-        print(
-            f"Turn: {board.turn}, Best move: {best_move}, Value: {best_value}, Alpha: {alpha}, Beta: {beta}"
-        )
+        if self._dbg:
+            print(f"Turn: {board.turn}, Best move: {best_move}, Alpha: {alpha}")
         return best_move
