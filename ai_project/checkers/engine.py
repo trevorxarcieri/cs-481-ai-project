@@ -2,14 +2,12 @@
 
 from math import floor
 
-from draughts.boards.standard import Color, Figure, Move
+from draughts.models import Color, Figure
+from draughts.move import Move
 
 from ai_project.checkers.board import CheckersBoard
 from ai_project.engine import AbstractEngine
 
-BOARD_DIM = 8  # Checkers board is 8x8
-BOARD_DIM_MINUS_ONE = BOARD_DIM - 1  # Used for distance calculations
-BOARD_DIM_MIN_ONE_HALF = BOARD_DIM_MINUS_ONE / 2  # Half of (board dimension - 1)
 MAN_VALUE = 5  # Value of a regular piece
 KING_VALUE = 10  # Value of a king piece
 WALL_DIST_VALUE = 3  # Distance to the wall value for evaluation
@@ -25,8 +23,8 @@ class CheckersEngine(AbstractEngine[CheckersBoard, Move]):
 
         # Evaluate the board position based on the number of pieces
         for i, square in enumerate(board.friendly_form):
-            row = i // BOARD_DIM
-            col = i % BOARD_DIM
+            row = i // CheckersBoard.size(board)
+            col = i % CheckersBoard.size(board)
             if square == Figure.EMPTY:
                 continue
             if square == Figure.WHITE_MAN:
@@ -40,19 +38,21 @@ class CheckersEngine(AbstractEngine[CheckersBoard, Move]):
 
             if square / abs(square) == Color.WHITE.value:
                 score += (
-                    WALL_DIST_VALUE * (BOARD_DIM_MINUS_ONE - row) / BOARD_DIM_MINUS_ONE
+                    WALL_DIST_VALUE
+                    * (CheckersBoard.size(board) - 1 - row)
+                    / (CheckersBoard.size(board) - 1)
                 )
                 score += (
                     SIDE_DIST_VALUE
-                    * abs(BOARD_DIM_MIN_ONE_HALF - col)
-                    / BOARD_DIM_MIN_ONE_HALF
+                    * abs(((CheckersBoard.size(board) - 1) / 2) - col)
+                    / ((CheckersBoard.size(board) - 1) / 2)
                 )
             else:
-                score -= WALL_DIST_VALUE * row / BOARD_DIM_MINUS_ONE
+                score -= WALL_DIST_VALUE * row / (CheckersBoard.size(board) - 1)
                 score -= (
                     SIDE_DIST_VALUE
-                    * abs(BOARD_DIM_MIN_ONE_HALF - col)
-                    / BOARD_DIM_MIN_ONE_HALF
+                    * abs(((CheckersBoard.size(board) - 1) / 2) - col)
+                    / ((CheckersBoard.size(board) - 1) / 2)
                 )
 
         return floor(score)
@@ -66,7 +66,10 @@ class CheckersEngine(AbstractEngine[CheckersBoard, Move]):
             key=lambda move: (
                 -len(move.captured_list),  # prefer moves that capture more pieces
                 (1 if is_min_turn else -1)
-                * (move.square_list[-1] // BOARD_DIM / 2 - BOARD_DIM_MIN_ONE_HALF)
+                * (
+                    (move.square_list[-1] // CheckersBoard.size(board)) / 2
+                    - ((CheckersBoard.size(board) - 1) / 2)
+                )
                 if len(move.square_list) > 0
                 else 0,  # prefer moves that advance to the opposite wall
             ),
