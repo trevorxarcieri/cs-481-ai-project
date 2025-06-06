@@ -8,7 +8,7 @@ NUM_MARKS_VALUES = [
     10,
     100,
 ]  # Values for no marks, one mark, and two marks in a line
-POS_VALUES = [
+POS_PRI = [
     3,
     2,
     3,
@@ -18,7 +18,7 @@ POS_VALUES = [
     3,
     2,
     3,
-]  # Values for for each position in the board, corners > edges > center
+]  # Priority for each position in the board, corners > edges > center
 
 
 class TttEngine(AbstractEngine[TttBoard, TttMove]):
@@ -36,20 +36,13 @@ class TttEngine(AbstractEngine[TttBoard, TttMove]):
             num_x = line_str.count(TttMark.x)
             score -= NUM_MARKS_VALUES[num_x]
 
-        # Add positional values
-        for i, mark in enumerate(board):
-            if mark == TttMark.o:
-                score += POS_VALUES[i]
-            elif mark == TttMark.x:
-                score -= POS_VALUES[i]
-
         return score
 
     def get_ordered_moves(
-        self, board: TttBoard, *, negate: bool = False
+        self, board: TttBoard, *, is_min_turn: bool = False
     ) -> list[TttMove]:
         """Get legal moves ordered by their potential effectiveness."""
         return sorted(
             board.legal_moves,
-            key=lambda move: -POS_VALUES[move],
+            key=lambda move: -POS_PRI[move],
         )
