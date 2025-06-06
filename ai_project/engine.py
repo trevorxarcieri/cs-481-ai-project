@@ -51,12 +51,14 @@ class AbstractEngine(ABC, Generic[BoardT, MoveT]):
         pass
 
     @abstractmethod
-    def get_ordered_moves(self, board: BoardT, *, negate: bool = False) -> list[MoveT]:
+    def get_ordered_moves(
+        self, board: BoardT, *, is_min_turn: bool = False
+    ) -> list[MoveT]:
         """Get legal moves ordered by their potential effectiveness.
 
         Args:
             board (AbstractBoard): The current board state.
-            negate (bool): Whether to negate the desired move direction.
+            is_min_turn (bool): Whether it is the minimizing player's turn.
 
         Returns:
             list[Any]: List of legal moves ordered by effectiveness.
@@ -70,7 +72,7 @@ class AbstractEngine(ABC, Generic[BoardT, MoveT]):
         alpha: float,
         beta: float,
         *,
-        negate: bool = False,
+        is_min_turn: bool = False,
     ) -> float:
         """Perform Alpha-Beta pruning to find the best move.
 
@@ -79,7 +81,7 @@ class AbstractEngine(ABC, Generic[BoardT, MoveT]):
             depth (int): The current search depth.
             alpha (float): The best score for the maximizing player.
             beta (float): The best score for the minimizing player.
-            negate (bool): Whether to negate the evaluation for the minimizing player.
+            is_min_turn (bool): Whether it is the minimizing player's turn.
 
         Returns:
             float: The evaluation score for the board.
@@ -88,13 +90,13 @@ class AbstractEngine(ABC, Generic[BoardT, MoveT]):
             return self.terminal_score(board)
 
         if depth == 0:
-            return (-1 if negate else 1) * self.evaluate(board)
+            return (1 if is_min_turn else -1) * self.evaluate(board)
 
         best = -inf
-        for move in self.get_ordered_moves(board, negate=negate):
+        for move in self.get_ordered_moves(board, is_min_turn=is_min_turn):
             board.push(move)  # make move
             val = -self.alpha_beta(
-                board, depth - 1, -beta, -alpha, negate=not negate
+                board, depth - 1, -beta, -alpha, is_min_turn=not is_min_turn
             )  # recurse and negate
             board.pop()  # undo move
 
@@ -128,16 +130,16 @@ class AbstractEngine(ABC, Generic[BoardT, MoveT]):
         best_move = None
         alpha = -inf
 
-        negate = board.turn.value == AbstractPlayer.MIN
+        is_min_turn = board.turn.value == AbstractPlayer.MIN
 
-        for move in self.get_ordered_moves(board, negate=negate):
+        for move in self.get_ordered_moves(board, is_min_turn=is_min_turn):
             board.push(move)  # make move
             move_value = -self.alpha_beta(
                 board,
                 self.depth - 1,
                 -inf,
                 -alpha,
-                negate=negate,
+                is_min_turn=not is_min_turn,
             )  # recurse and negate
             board.pop()  # undo move
 
