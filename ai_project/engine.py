@@ -128,7 +128,7 @@ class AbstractEngine(ABC, Generic[BoardT, MoveT]):
         best_move = None
         alpha = -inf
 
-        negate = board.turn.value == AbstractPlayer.MIN.value
+        negate = board.turn.value == AbstractPlayer.MIN
 
         for move in self.get_ordered_moves(board, negate=negate):
             board.push(move)  # make move

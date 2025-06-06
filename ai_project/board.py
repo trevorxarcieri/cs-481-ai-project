@@ -2,13 +2,13 @@
 
 from abc import ABC, abstractmethod
 from collections.abc import Generator
-from enum import Enum
+from enum import IntEnum
 from typing import Generic, TypeVar
 
 MoveT = TypeVar("MoveT")
 
 
-class AbstractPlayer(Enum):
+class AbstractPlayer(IntEnum):
     """Enum for players."""
 
     MAX = 1
