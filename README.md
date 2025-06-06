@@ -17,9 +17,9 @@ To install the project and its dependencies, run:
 poetry install
 ```
 
-### Running the Games
+## Running the Games
 
-#### Checkers
+### Checkers
 
 To run the Checkers game, use the following command:
 
@@ -27,7 +27,7 @@ To run the Checkers game, use the following command:
 poetry run checkers
 ```
 
-#### Tic-Tac-Toe
+### Tic-Tac-Toe
 
 To run the Tic-Tac-Toe game, use the following command:
 
@@ -35,7 +35,7 @@ To run the Tic-Tac-Toe game, use the following command:
 poetry run tic-tac-toe
 ```
 
-#### Usage
+### Usage
 
 ```bash
 usage: (checkers|tic-tac-toe) [-h] [-d {1,2,3,4,5}] [-r PERCENTAGE] [--debug]
