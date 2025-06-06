@@ -32,9 +32,11 @@ class TttEngine(AbstractEngine[TttBoard, TttMove]):
         for line in WINNING_LINES:
             line_str = "".join(board[i] for i in line)
             num_o = line_str.count(TttMark.o)
-            score += NUM_MARKS_VALUES[num_o]
             num_x = line_str.count(TttMark.x)
-            score -= NUM_MARKS_VALUES[num_x]
+            if num_x == 0:
+                score += NUM_MARKS_VALUES[num_o]
+            if num_o == 0:
+                score -= NUM_MARKS_VALUES[num_x]
 
         return score
 
