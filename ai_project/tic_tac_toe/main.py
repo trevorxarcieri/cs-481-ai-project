@@ -9,7 +9,9 @@ from ai_project.utils import parse_args
 args = parse_args()
 
 board = TttBoard()
-engine = TttEngine(depth=args.difficulty, randomness=args.randomness, debug=args.debug)
+engine = TttEngine(
+    depth=args.difficulty * 2, randomness=args.randomness, debug=args.debug
+)
 
 
 def handle_game_over(board: TttBoard) -> None:
@@ -26,9 +28,9 @@ def get_user_choice() -> str:
     """Get user choice for the next action."""
     while True:
         choice = input(
-            "Type 'u' to make a move, 'm' to make the engine move, 'a' for auto play, or 'r' for a random position: "
+            "Type 'm' to make a move, 'e' to make the engine move, 'u' to undo the last move, 'a' for auto play, or 'r' for a random position: "
         )
-        if choice in ["u", "m", "a", "r"]:
+        if choice in ["m", "e", "u", "a", "r"]:
             return choice
         print("Invalid choice. Please try again.")
 
@@ -49,16 +51,23 @@ def get_move_input() -> int:
 def handle_user_choice(choice: str) -> None:
     """Handle the user choice for the next action."""
     match choice:
-        case "u":
+        case "m":
             move = get_move_input()
             board.push(move)
-        case "m":
+        case "e":
             move = engine.get_best_move(board)
             print(f"Engine chose move: {move}")
             board.push(move)
+        case "u":
+            try:
+                board.pop()
+                print("Last move undone.")
+            except IndexError:
+                print("No moves to undo.")
         case "a":
             while not board.game_over:
                 print(board)
+                print(f"Current turn: {TttPlayer(board.turn.value)}")
                 move = engine.get_best_move(board)
                 print(f"Engine chose move: {move}")
                 board.push(move)
