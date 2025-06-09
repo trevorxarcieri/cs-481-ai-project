@@ -1,4 +1,10 @@
-"""Checkers AI engine using Negamax and Alpha-Beta Pruning."""
+"""Checkers AI engine using Negamax and Alpha-Beta Pruning.
+
+Authors: Trevor Arcieri and Demetri Karras
+Course: CS 481 Artificial Intelligence
+Term: Spring 2025
+Project: DualBoard Negamax AI
+"""
 
 from math import floor
 

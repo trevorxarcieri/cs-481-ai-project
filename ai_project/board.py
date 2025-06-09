@@ -1,4 +1,10 @@
-"""Abstract board representation."""
+"""Abstract board representation.
+
+Authors: Trevor Arcieri and Demetri Karras
+Course: CS 481 Artificial Intelligence
+Term: Spring 2025
+Project: DualBoard Negamax AI
+"""
 
 from abc import ABC, abstractmethod
 from collections.abc import Generator

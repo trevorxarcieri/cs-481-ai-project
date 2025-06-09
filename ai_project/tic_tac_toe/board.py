@@ -1,4 +1,10 @@
-"""Tic-tac-toe board representation."""
+"""Tic-tac-toe board representation.
+
+Authors: Trevor Arcieri and Demetri Karras
+Course: CS 481 Artificial Intelligence
+Term: Spring 2025
+Project: DualBoard Negamax AI
+"""
 
 from collections.abc import Generator
 from enum import Enum, IntEnum

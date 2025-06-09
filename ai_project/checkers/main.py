@@ -1,4 +1,10 @@
-"""Main entry point for the checkers game."""
+"""Main entry point for the checkers game.
+
+Authors: Trevor Arcieri and Demetri Karras
+Course: CS 481 Artificial Intelligence
+Term: Spring 2025
+Project: DualBoard Negamax AI
+"""
 
 from draughts import Server, get_board
 
