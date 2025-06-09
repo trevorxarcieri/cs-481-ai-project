@@ -1,14 +1,17 @@
 [project]
-name = "ai-project"
+name = "dualboard-negamax-ai"
 version = "0.1.0"
-description = "This is the final project I made with my friend Demetri for my CS-481 AI class at Kettering Univeristy."
+description = "This is the final project I made with my friend Demetri for my CS-481 AI class at Kettering University in Spring 2025. It implements a Negamax AI agent for Draughts and Tic-Tac-Toe, with a focus on performance and correctness."
 authors = [
-    { name = "trevorxarcieri", email = "agent.steel.ta@gmail.com" },
-    { name = "demetri-0", email = "demetri894@gmail.com" },
+    { name = "Trevor Arcieri", email = "agent.steel.ta@gmail.com" },
+    { name = "Demetri Karras", email = "demetri894@gmail.com" },
 ]
 readme = "README.md"
 requires-python = ">=3.12,<4.0"
 dependencies = ["py-draughts (>=1.3.1,<2.0.0)"]
+
+[tool.poetry]
+packages = [{ include = "ai_project" }]
 
 [project.scripts]
 checkers = "ai_project.checkers.main:main"
