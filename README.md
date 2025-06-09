@@ -1,6 +1,6 @@
 # DualBoard Negamax AI
 
-By [Trevor Arcieri](github.com/trevorxarcieri) and [Demetri Karras](github.com/demetri-0)
+By [Trevor Arcieri](https://github.com/trevorxarcieri) and [Demetri Karras](https://github.com/demetri-0)
 
 ## Overview
 
