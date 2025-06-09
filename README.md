@@ -1,4 +1,4 @@
-# DualBoard Negamax AI
+# [DualBoard Negamax AI](https://github.com/trevorxarcieri/dualboard-negamax-ai)
 
 By [Trevor Arcieri](https://github.com/trevorxarcieri) and [Demetri Karras](https://github.com/demetri-0)
 
