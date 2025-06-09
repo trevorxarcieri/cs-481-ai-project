@@ -1,4 +1,10 @@
-"""Utilities for the AI project."""
+"""Utilities for the AI project.
+
+Authors: Trevor Arcieri and Demetri Karras
+Course: CS 481 Artificial Intelligence
+Term: Spring 2025
+Project: DualBoard Negamax AI
+"""
 
 import argparse
 from dataclasses import dataclass

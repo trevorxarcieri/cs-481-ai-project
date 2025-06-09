@@ -1,4 +1,10 @@
-"""Tic-tac-toe AI engine using Negamax and Alpha-Beta Pruning."""
+"""Tic-tac-toe AI engine using Negamax and Alpha-Beta Pruning.
+
+Authors: Trevor Arcieri and Demetri Karras
+Course: CS 481 Artificial Intelligence
+Term: Spring 2025
+Project: DualBoard Negamax AI
+"""
 
 from ai_project.engine import AbstractEngine
 from ai_project.tic_tac_toe.board import WINNING_LINES, TttBoard, TttMark, TttMove

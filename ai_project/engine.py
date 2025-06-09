@@ -1,4 +1,10 @@
-"""Abstract base class for an AI engine using Negamax and Alpha-Beta Pruning."""
+"""Abstract base class for an AI engine using Negamax and Alpha-Beta Pruning.
+
+Authors: Trevor Arcieri and Demetri Karras
+Course: CS 481 Artificial Intelligence
+Term: Spring 2025
+Project: DualBoard Negamax AI
+"""
 
 import random
 from abc import ABC, abstractmethod

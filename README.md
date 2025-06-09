@@ -1,6 +1,10 @@
-# CS-481 AI Project
+# DualBoard Negamax AI
 
-This is the final project I made with my friend Demetri for my CS-481 AI class at Kettering Univeristy.
+By [Trevor Arcieri](github.com/trevorxarcieri) and [Demetri Karras](github.com/demetri-0)
+
+## Overview
+
+This is the final project I made with my friend Demetri for my CS-481 AI class at Kettering University in Spring 2025. It implements a Negamax AI agent for Draughts and Tic-Tac-Toe, with a focus on performance and correctness.
 
 ## Development Setup
 

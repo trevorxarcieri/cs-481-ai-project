@@ -1,4 +1,10 @@
-"""Main entry point for the tic-tac-toe game."""
+"""Main entry point for the tic-tac-toe game.
+
+Authors: Trevor Arcieri and Demetri Karras
+Course: CS 481 Artificial Intelligence
+Term: Spring 2025
+Project: DualBoard Negamax AI
+"""
 
 import random
 
